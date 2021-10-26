@@ -7,3 +7,4 @@ public class JsonResponse {
 	public Object responseBody;
 
 }
+
