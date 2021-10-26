@@ -101,3 +101,4 @@ public class UserUpdater extends HttpServlet {
 		out.println(jsonOutput);
 	}
 }
+
