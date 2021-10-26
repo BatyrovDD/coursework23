@@ -54,6 +54,7 @@ public class Project23DAOImplementation implements Project23DAO {
 
 	}
 
+
 	@Override
 	public boolean editRates(String token, Rates rates) {
 		try {
