@@ -24,6 +24,7 @@ public class Login extends HttpServlet {
 		dao = new Project23DAOImplementation();
 	}
 
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		response.setContentType("application/json");
