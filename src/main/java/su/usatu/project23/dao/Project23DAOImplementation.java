@@ -185,6 +185,7 @@ public class Project23DAOImplementation implements Project23DAO {
 		return user;
 	}
 	
+
 	@Override
 	public User getUserInfoByToken(String token, String tableName) {
 		User user = new User();
