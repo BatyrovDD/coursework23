@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Главная страница — Калькулятор стоимости производства оконных конструкций</title>
+</head>
+<body>
+
+	<p class="single__rate__price" style="display: none;">0</p>
+    <p class="daily__rate__price" style="display: none;">0</p>
+    <p class="night__rate__price" style="display: none;">0</p>
+
+	<p>Здравствуйте, <span id="username"></span> 
+		<a id="login_link" href="account/login">(Войти)</a>
+		<a id="registration_link" href="account/register">(Зарегистрироваться)</a>
+	</p>
+
+		<h2>Калькулятор стоимости производства оконных конструкций</h2>
+    <label>Варианты створок:</label>
+    <select class="rates__selector">
+        <option value="0">Выберите</option>
+        <option value="1">Одностворчатое</option>
+        <option value="2">Двухстворчатое</option> 
+        <option value="3">Трехстворчатое</option>
+    </select> <br><br>
+    <label>Стеклопакет:</label>
+    <select class="glazing__selector">
+        <option value="0">Выберите</option>
+        <option value="1">Однокамерный</option>
+        <option value="2">Двухкамерный</option>
+        <option value="3">Трехкамерный</option>
+    </select> 
+<!--     <label>Цвет створок:</label>
+    <select class="sashes__selector">
+        <option value="0">Выберите</option>
+        <option value="1">Черный</option>
+        <option value="2">Белый</option>
+        <option value="3">Цветной</option>
+    </select>  <br>-->
+    <br><br>
+
+    <label for="">Высота</label>
+    <input type="number" class="height__input">
+    <label for="">Ширина</label>
+    <input type="number" class="width__input"><br><br><br>
+
+
+    <button class="calculate__button">Рассчитать</button>
+    <label>Результат: <span class="result__span">0</span> руб.</label><br><br>
+    <button class="info__button">Справка</button><br><br>
+
+	<a id="account_link" href="account/login">Личный кабинет</a><br><br>
+	<a href="https://github.com/BatyrovDD" target="_blank">GitHub</a>
+
+	<script src="js/jquery-3.6.0.min.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/index.js"></script>
+	<script src="js/calculate.js"></script>
+</body>
+</html>
