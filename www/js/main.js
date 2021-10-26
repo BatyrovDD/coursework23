@@ -1,3 +1,20 @@
+//получение json с тарифами и запись на главную страницу (адрес api с параметром id таблицы)
+function importJsonToInfoPage(url){
+    $.getJSON(url, function(data) {
+        const ratesArray = [];
+        $.each(data, function(key, val) {
+
+            ratesArray.push(val);
+
+        });
+        //в ratesArray[2] находится запрашиваемый у api объект
+        let jsonWithData = ratesArray[2];
+        $('.single__glazing__price').html(jsonWithData.single_glazing_price);
+        $('.double__glazing__price').html(jsonWithData.double_glazing_price);
+        $('.triple__glazing__price').html(jsonWithData.triple_glazing_price);
+
+    });
+}
 //получение json с тарифами и запись в форму (адрес api с параметром id таблицы)
 function importJsonToEditForm(url){
     $.getJSON(url, function(data) {
@@ -9,33 +26,9 @@ function importJsonToEditForm(url){
      });
         //в ratesArray[2] находится запрашиваемый у api объект (responseBody)
         let jsonWithData = ratesArray[2];
-        $('.single__rate__price').val(jsonWithData.single_rate_price);
-        $('.daily__rate__price').val(jsonWithData.daily_rate_price);
-        $('.night__rate__price').val(jsonWithData.night_rate_price);
-
-        $('.peak__zone__rate__price').val(jsonWithData.peak_zone_rate_price);
-        $('.semipeak__zone__rate__price').val(jsonWithData.semipeak_zone_rate_price);
-        $('.night__zone__rate__price').val(jsonWithData.night_zone_rate_price);
-    });
-}
-//получение json с тарифами и запись на страницу с информацией о тарифах (адрес api с параметром id таблицы)
-function importJsonToInfoPage(url){
-    $.getJSON(url, function(data) {
-        const ratesArray = [];
-        $.each(data, function(key, val) {
-
-            ratesArray.push(val);
-
-        });
-        //в ratesArray[2] находится запрашиваемый у api объект
-        let jsonWithData = ratesArray[2];
-        $('.single__rate__price').html(jsonWithData.single_rate_price);
-        $('.daily__rate__price').html(jsonWithData.daily_rate_price);
-        $('.night__rate__price').html(jsonWithData.night_rate_price);
-
-        $('.peak__zone__rate__price').html(jsonWithData.peak_zone_rate_price);
-        $('.semipeak__zone__rate__price').html(jsonWithData.semipeak_zone_rate_price);
-        $('.night__zone__rate__price').html(jsonWithData.night_zone_rate_price);
+        $('.single__glazing__price').val(jsonWithData.single_glazing_price);
+        $('.double__glazing__price').val(jsonWithData.double_glazing_price);
+        $('.triple__glazing__price').val(jsonWithData.triple_glazing_price);
     });
 }
 //вызов importJsonToEditForm со сформированными параметрами

@@ -4,13 +4,8 @@ public class Rates {
 	
 	public int id; //идентификатор группы тарифов
 	
-	public double single_rate_price; // Одноставочный тариф
-	
-	public double daily_rate_price; // Дневная зона
-	public double night_rate_price; // Ночная зона
-	
-//	public double peak_zone_rate_price; // Пиковая зона
-//	public double semipeak_zone_rate_price; // Полупиковая зона
-//	public double night_zone_rate_price; // Ночная зона
+	public double single_glazing_price;
+	public double double_glazing_price;
+	public double triple_glazing_price;
 	
 }

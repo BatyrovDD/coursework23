@@ -3,9 +3,9 @@ function updateRates(tokenCookie){
 
     let ratesId = $(".rates__selector").val();
 
-    let specifiedSingleRatePrice = $(".single__rate__price").val();
-    let specifiedDailyRatePrice= $(".daily__rate__price").val();
-    let specifiedNightRatePrice = $(".night__rate__price").val();
+    let specifiedSingleRatePrice = $(".single__glazing__price").val();
+    let specifiedDailyRatePrice= $(".double__glazing__price").val();
+    let specifiedNightRatePrice = $(".triple__glazing__price").val();
 
     //проверяем пустые поля
     isEmpty(ratesId) && throwUserInputError();

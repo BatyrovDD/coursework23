@@ -37,10 +37,9 @@ public class Project23DAOImplementation implements Project23DAO {
 
 				rates.id = rs.getInt("rates_set_id");
 
-				rates.single_rate_price = rs.getDouble("single_rate_price");
-
-				rates.daily_rate_price = rs.getDouble("daily_rate_price");
-				rates.night_rate_price = rs.getDouble("night_rate_price");
+				rates.single_glazing_price = rs.getDouble("single_glazing_price");
+				rates.double_glazing_price = rs.getDouble("double_glazing_price");
+				rates.triple_glazing_price = rs.getDouble("triple_glazing_price");
 
 				break;
 
@@ -60,12 +59,12 @@ public class Project23DAOImplementation implements Project23DAO {
 		try {
 			User user = new User();
 			user = getUserByToken(token, "users");
-			String sqlUpdate = "UPDATE rates SET single_rate_price = ?, daily_rate_price = ?, night_rate_price = ?, updated_at = UNIX_TIMESTAMP(), updated_by = ? WHERE rates_set_id = ?";
+			String sqlUpdate = "UPDATE rates SET single_glazing_price = ?, double_glazing_price = ?, triple_glazing_price = ?, updated_at = UNIX_TIMESTAMP(), updated_by = ? WHERE rates_set_id = ?";
 			Connection conn = MySQLJDBCUtil.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sqlUpdate);
-			pstmt.setDouble(1, rates.single_rate_price);
-			pstmt.setDouble(2, rates.daily_rate_price);
-			pstmt.setDouble(3, rates.night_rate_price);
+			pstmt.setDouble(1, rates.single_glazing_price);
+			pstmt.setDouble(2, rates.double_glazing_price);
+			pstmt.setDouble(3, rates.triple_glazing_price);
 			pstmt.setInt(4, user.getId());
 			pstmt.setInt(5, rates.id);
 			pstmt.executeUpdate();

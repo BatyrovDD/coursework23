@@ -19,6 +19,76 @@ function writeRatesToHiddenTags(){
 	importJsonToInfoPage(ratesGetterUrl);
 }
 
+function calculate() {
+	let height = $('.height__input').val();
+	let width = $('.width__input').val();
+	let sashesCount = $('.rates__selector').val();
+	let glazingMode = $('.glazing__selector').val();
+
+	if (glazingMode == 1) {
+		glazingCoef = parseFloat($('.single__glazing__price').html());
+	}
+
+	if (glazingMode == 2) {
+		glazingCoef = parseFloat($('.double__glazing__price').html());
+	}
+
+	if (glazingMode == 3) {
+		glazingCoef = parseFloat($('.triple__glazing__price').html());
+	}
+
+	let rawResult;
+	let result;
+
+	//Математеческая модель
+	rawResult = height * width * sashesCount * glazingCoef / 100;
+	//Минимальная сумма расчёта — 1000 руб
+	(rawResult < 1000) ? result = 1000 : result = roundNumber(rawResult, 2);
+	$('.result__span').html(result);
+
+}
+
+//генерация PDF для однорежимных счётчиков
+function createPdf(tokenCookie){
+
+	tokenCookie = getCookie("token");
+	if (!tokenCookie) tokenCookie = 0;
+
+	let width = $(".width__input").val();
+	let height = $(".height__input").val();
+	let sashesCount = $('.rates__selector').val();
+	let glazing = $('.glazing__selector').val();
+	let totalAmount = $(".result__span").html();
+
+	$.ajax({
+		url: '/api/generate_pdf',     
+		type: 'GET',
+		data : {
+            token : tokenCookie,
+            width : width,
+            height : height,
+            sashesCount : sashesCount,
+            glazing : glazing,
+            totalAmount : totalAmount
+        },
+        dataType: 'json',                   
+        success: function(data)
+        {
+        	let pdfDocDownloadLink = "http://" + location.host  + data.responseBody;
+        	alert("Отчёт сформирован. Он откроется в новом окне");
+        	window.open(pdfDocDownloadLink, '_blank');
+        },
+        statusCode: {
+        	400: function (response) {
+        		alert("Недопустимые данные");
+        	},
+        	500: function (response) {
+        		alert("Произошла ошибка");
+        	}
+        },
+    })
+
+}
 
 let successfulCalculation = false;
 
@@ -29,44 +99,34 @@ $('.rates__selector').change(function() {
 	successfulCalculation = false;
 
 });
+
 //кнопка расчёта
 $('.calculate__button').click(function() {
 	let ratesId = $('.rates__selector').val();
 	let meterMode = $('.glazing__selector').val();
 	if (ratesId == 0 || meterMode == 0){
-		alert ("Сконфигурируйте калькулятор")
+		alert ("Сконфигурируйте калькулятор");
 	} else {
-		calculate();
-		successfulCalculation = true;
+		// проверка на ввод букв
+		let number1 = $('.height__input').val();
+		let number2 = $('.width__input').val();
+        if($.isNumeric(number1) && $.isNumeric(number2)){
+                calculate();
+				successfulCalculation = true;
+         }else{
+            alert ("Можно вводить только числа")
+         }
+		
 	}
 });
 
-function calculate() {
-	let height = $('.height__input').val();
-	let width = $('.width__input').val();
-	let rates = $('.rates__selector').val();
-	let glazingMode = $('.glazing__selector').val();
-	let sashesCount;
-
-	if (rates == 1) {
-		sashesCount = parseFloat($('.single__rate__price').html());
-	}
-
-	if (rates == 2) {
-		sashesCount = parseFloat($('.daily__rate__price').html());
-	}
-
-	if (rates == 3) {
-		sashesCount = parseFloat($('.night__rate__price').html());
-	}
-
-	let rawResult;
-	rawResult = height * width * sashesCount * glazingMode;
-	result = roundNumber(rawResult, 2);
-	$('.result__span').html(result);
-
-}
 //кнопка PDF отчёта
-$('.info__button').click(function() {
+$('.report__button').click(function() {
+	let ratesId = $('.rates__selector').val();
+	let meterMode = $('.meter__mode__selector').val();
+	if (successfulCalculation){
+		createPdf(tokenCookie);
+	} else {
 		alert ("Сначала нужно произвести расчёт");
+	}
 });

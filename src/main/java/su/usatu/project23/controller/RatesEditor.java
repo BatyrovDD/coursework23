@@ -38,14 +38,9 @@ public class RatesEditor extends HttpServlet {
 
 		rates.id = Integer.parseInt(request.getParameter("rates_set_id"));
 		
-		rates.single_rate_price = Double.parseDouble(request.getParameter("single_rate_price"));
-
-		rates.daily_rate_price = Double.parseDouble(request.getParameter("daily_rate_price"));
-		rates.night_rate_price = Double.parseDouble(request.getParameter("night_rate_price"));
-
-//		rates.peak_zone_rate_price = Double.parseDouble(request.getParameter("peak_zone_rate_price"));
-//		rates.semipeak_zone_rate_price = Double.parseDouble(request.getParameter("semipeak_zone_rate_price"));
-//		rates.night_zone_rate_price = Double.parseDouble(request.getParameter("night_zone_rate_price"));
+		rates.single_glazing_price = Double.parseDouble(request.getParameter("single_rate_price"));
+		rates.double_glazing_price = Double.parseDouble(request.getParameter("daily_rate_price"));
+		rates.triple_glazing_price = Double.parseDouble(request.getParameter("night_rate_price"));
 
 		if (groupId == 1) {
 			dao.editRates(token, rates);

@@ -56,7 +56,7 @@ public class PDFUtil {
 
 				contentStream.setFont(timesRegular, 14);
 
-				String line2 = "по произведённому расчёту размера платы за электроснабжение";
+				String line2 = "по произведённому расчёту стоимости производства оконных конструкций";
 				contentStream.showText(line2);
 				contentStream.newLine();
 			
@@ -78,59 +78,25 @@ public class PDFUtil {
 				
 				// table
 				// Build calculationTable
-				Table calculationTable = Table.builder().addColumnsOfWidth(150, 150, 150).font(timesRegular).padding(2)
+				Table calculationTable = Table.builder().addColumnsOfWidth(150, 150).font(timesRegular).padding(2)
 						.addRow(Row.builder()
-								.add(TextCell.builder().text("№ точки учёта").borderWidth(1).build())
-								.add(TextCell.builder().text("Предыдущие показания").borderWidth(1).build())
-								.add(TextCell.builder().text("Текущие показания").borderWidth(1).build())
+								.add(TextCell.builder().text("Варианты створок").borderWidth(1).build())
+								.add(TextCell.builder().text(dataForPDF.sashesCount).borderWidth(1).build())
 								.build())
 						.addRow(Row.builder()
-								.add(TextCell.builder().text("1").borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.firstMeterPrevReadings).borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.firstMeterCurrReadings).borderWidth(1).build())
+								.add(TextCell.builder().text("Стеклопакет").borderWidth(1).build())
+								.add(TextCell.builder().text(dataForPDF.glazing).borderWidth(1).build())
 								.build())
 						.addRow(Row.builder()
-								.add(TextCell.builder().text("2").borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.secondMeterPrevReadings).borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.secondMeterCurrReadings).borderWidth(1).build())
+								.add(TextCell.builder().text("Высота").borderWidth(1).build())
+								.add(TextCell.builder().text(dataForPDF.width).borderWidth(1).build())
 								.build())
 						.addRow(Row.builder()
-								.add(TextCell.builder().text("3").borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.thirdMeterPrevReadings).borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.thirdMeterCurrReadings).borderWidth(1).build())
-								.build())
-						.build();
-				
-				// Build consumptionTable
-				Table consumptionTable = Table.builder().addColumnsOfWidth(110, 110, 110, 110).font(timesRegular).padding(2)
-						.addRow(Row.builder()
-								.add(TextCell.builder().text("Услуга").borderWidth(1).build())
-								.add(TextCell.builder().text("Объём, кВт*ч").borderWidth(1).build())
-								.add(TextCell.builder().text("Тариф, руб.").borderWidth(1).build())
-								.add(TextCell.builder().text("Начислено, руб.").borderWidth(1).build())
+								.add(TextCell.builder().text("Ширина").borderWidth(1).build())
+								.add(TextCell.builder().text(dataForPDF.height).borderWidth(1).build())
 								.build())
 						.addRow(Row.builder()
-								.add(TextCell.builder().text("1").borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.consumptionByFirstMeter).borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.firstRatePrice).borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.firstMeterAmount).borderWidth(1).build())
-								.build())
-						.addRow(Row.builder()
-								.add(TextCell.builder().text("2").borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.consumptionBySecondMeter).borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.secondRatePrice).borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.secondMeterAmount).borderWidth(1).build())
-								.build())
-						.addRow(Row.builder()
-								.add(TextCell.builder().text("3").borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.consumptionByThirdMeter).borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.thirdRatePrice).borderWidth(1).build())
-								.add(TextCell.builder().text(dataForPDF.thirdMeterAmount).borderWidth(1).build())
-								.build())
-						.addRow(Row.builder()
-								.add(TextCell.builder().text("").borderWidth(0).build())
-								.add(TextCell.builder().text("").borderWidth(0).build())
-								.add(TextCell.builder().text("Итого:").borderWidth(1).font(timesItalic).build())
+								.add(TextCell.builder().text("Итого").borderWidth(1).font(timesItalic).build())
 								.add(TextCell.builder().text(dataForPDF.totalAmount).borderWidth(1).build())
 								.build())
 						.build();
@@ -139,13 +105,8 @@ public class PDFUtil {
 				TableDrawer calculationTableDrawer = TableDrawer.builder().contentStream(contentStream).startX(25)
 						.startY(page.getMediaBox().getUpperRightY() - 80).table(calculationTable).build();
 
-				// Set up the drawer for consumptionTable
-				TableDrawer consumptionTableDrawer = TableDrawer.builder().contentStream(contentStream).startX(25)
-						.startY(page.getMediaBox().getUpperRightY() - 150).table(consumptionTable).build();
-
 				// Draw the tables
 				calculationTableDrawer.draw();
-				consumptionTableDrawer.draw();
 				
 			}
 			

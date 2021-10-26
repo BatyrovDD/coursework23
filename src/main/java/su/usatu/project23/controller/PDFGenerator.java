@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import su.usatu.project23.dao.Project23DAO;
 import su.usatu.project23.dao.Project23DAOImplementation;
-import su.usatu.project23.model.Rates;
 import su.usatu.project23.model.ReportData;
 import su.usatu.project23.util.JsonResponseUtil;
 
@@ -20,7 +19,6 @@ import su.usatu.project23.util.JsonResponseUtil;
 public class PDFGenerator extends HttpServlet {
 
 	private Project23DAO dao;
-	private Rates rates;
 
 	public PDFGenerator() {
 		dao = new Project23DAOImplementation();
@@ -31,100 +29,29 @@ public class PDFGenerator extends HttpServlet {
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		String jsonOutput;
-
-		boolean ratesIdInputIsValid = false;
-		boolean validInputData = false;
+		
 		ReportData rd = new ReportData();
 		String pdfReport;
 
-		rd.meterMode = Integer.parseInt(request.getParameter("meterMode"));
-		rd.ratesId = Integer.parseInt(request.getParameter("ratesId"));
 		String token = request.getParameter("token");
 
-		if ((rd.ratesId >= 1 && rd.ratesId <= 3)) {
-			ratesIdInputIsValid = true;
-			rates = dao.getRatesById(rd.ratesId);
-		}
+		rd.width = request.getParameter("width");
+		rd.height = request.getParameter("height");
 
-		if (rd.meterMode == 1 && ratesIdInputIsValid) {
+		rd.sashesCount = request.getParameter("sashesCount");
 
-			rd.firstMeterPrevReadings = request.getParameter("firstMeterPrevReadings");
-			rd.firstMeterCurrReadings = request.getParameter("firstMeterCurrReadings");
+		rd.glazing = request.getParameter("glazing");
 
-			rd.consumptionByFirstMeter = request.getParameter("consumptionByFirstMeter");
+		rd.totalAmount = request.getParameter("totalAmount");
 
-			rd.firstMeterAmount = request.getParameter("firstMeterAmount");
+		pdfReport = dao.createPdfReport(rd);
 
-			rd.totalAmount = request.getParameter("totalAmount");
-
-			rd.firstRatePrice = String.valueOf(rates.single_rate_price);
-
-			validInputData = true;
-
-		} else if (rd.meterMode == 2 && ratesIdInputIsValid) {
-
-			rd.firstMeterPrevReadings = request.getParameter("firstMeterPrevReadings");
-			rd.firstMeterCurrReadings = request.getParameter("firstMeterCurrReadings");
-			rd.secondMeterPrevReadings = request.getParameter("secondMeterPrevReadings");
-			rd.secondMeterCurrReadings = request.getParameter("secondMeterCurrReadings");
-
-			rd.consumptionByFirstMeter = request.getParameter("consumptionByFirstMeter");
-			rd.consumptionBySecondMeter = request.getParameter("consumptionBySecondMeter");
-
-			rd.firstMeterAmount = request.getParameter("firstMeterAmount");
-			rd.secondMeterAmount = request.getParameter("secondMeterAmount");
-
-			rd.totalAmount = request.getParameter("totalAmount");
-
-			rd.firstRatePrice = String.valueOf(rates.daily_rate_price);
-			rd.secondRatePrice = String.valueOf(rates.night_rate_price);
-
-			validInputData = true;
-
-		} else if (rd.meterMode == 3 && ratesIdInputIsValid) {
-
-			rd.firstMeterPrevReadings = request.getParameter("firstMeterPrevReadings");
-			rd.firstMeterCurrReadings = request.getParameter("firstMeterCurrReadings");
-			rd.secondMeterPrevReadings = request.getParameter("secondMeterPrevReadings");
-			rd.secondMeterCurrReadings = request.getParameter("secondMeterCurrReadings");
-			rd.thirdMeterPrevReadings = request.getParameter("thirdMeterPrevReadings");
-			rd.thirdMeterCurrReadings = request.getParameter("thirdMeterCurrReadings");
-
-			rd.consumptionByFirstMeter = request.getParameter("consumptionByFirstMeter");
-			rd.consumptionBySecondMeter = request.getParameter("consumptionBySecondMeter");
-			rd.consumptionByThirdMeter = request.getParameter("consumptionByThirdMeter");
-
-			rd.firstMeterAmount = request.getParameter("firstMeterAmount");
-			rd.secondMeterAmount = request.getParameter("secondMeterAmount");
-			rd.thirdMeterAmount = request.getParameter("thirdMeterAmount");
-
-			rd.totalAmount = request.getParameter("totalAmount");
-
-//			rd.firstRatePrice = String.valueOf(rates.peak_zone_rate_price);
-//			rd.secondRatePrice = String.valueOf(rates.semipeak_zone_rate_price);
-//			rd.thirdRatePrice = String.valueOf(rates.night_zone_rate_price);
-
-			validInputData = true;
-
-		}
-
-		if (!validInputData) {
-
-			jsonOutput = JsonResponseUtil.formJsonResponse("failure",
-					"meterMode and ratesId params must be at range from 1 to 3");
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // Status code 400
-
+		if (pdfReport == "Failed") {
+			jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Failed to create PDF report");
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // Status code 500
 		} else {
-
-			pdfReport = dao.createPdfReport(rd);
-
-			if (pdfReport == "Failed") {
-				jsonOutput = JsonResponseUtil.formJsonResponse("failure", "Failed to create PDF report");
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // Status code 500
-			} else {
-				jsonOutput = JsonResponseUtil.formJsonResponse("success", "OK", pdfReport);
-				dao.assignPdfReportToUser(token, pdfReport);
-			}
+			jsonOutput = JsonResponseUtil.formJsonResponse("success", "OK", pdfReport);
+			dao.assignPdfReportToUser(token, pdfReport);
 		}
 
 		out.println(jsonOutput);
