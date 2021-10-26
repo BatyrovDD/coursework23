@@ -79,6 +79,7 @@ public class Project23DAOImplementation implements Project23DAO {
 		}
 	}
 
+
 	@Override
 	public boolean addUser(User user, String tableName) {
 		try {
