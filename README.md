@@ -1,5 +1,7 @@
 # coursework23
-[![Build Status](https://project23.usatu.su/jenkins/buildStatus/icon?job=Project23_CID)](https://project23.usatu.su/jenkins/job/Project23_CID/)
+Jenkins: [![Build Status](https://project23.usatu.su/jenkins/buildStatus/icon?job=Project23_CID)](https://project23.usatu.su/jenkins/job/Project23_CID/)
+
+Travis: [![Build Status](https://app.travis-ci.com/BatyrovDD/coursework23.svg?branch=main)](https://app.travis-ci.com/BatyrovDD/coursework23)
 
 ## Калькулятор стоимости производства оконных конструкций. 
 ### Курсовая работы по дисциплине «Информационные системы», подгруппы 23
